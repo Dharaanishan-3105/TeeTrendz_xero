@@ -5,36 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TeeTrendz | T-Shirt Store Demo</title>
 
-  <!-- Bootstrap 5 -->
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
     rel="stylesheet"
   />
 
-<!-- Google Tag Manager -->
-<script>
-  (function (w, d, s, l, i) {
-    w[l] = w[l] || [];
-    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-    var f = d.getElementsByTagName(s)[0],
-      j = d.createElement(s),
-      dl = l !== "dataLayer" ? "&l=" + l : "";
-    j.async = true;
-    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-    f.parentNode.insertBefore(j, f);
-  })(window, document, "script", "dataLayer", "GTM-ABC1234");
-</script>
-<!-- End Google Tag Manager -->
+  <!-- Google Analytics 4 : Direct gtag.js setup -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-F15JRS9N01"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
 
-<!-- GTM noscript -->
-<noscript>
-  <iframe
-    src="https://www.googletagmanager.com/ns.html?id=GTM-ABC1234"
-    height="0"
-    width="0"
-    style="display:none;visibility:hidden">
-  </iframe>
-</noscript>
+    gtag('js', new Date());
+    gtag('config', 'G-F15JRS9N01');
+  </script>
 
   <style>
     body {
@@ -43,7 +27,7 @@
 
     .hero {
       background: linear-gradient(135deg, #111827, #1f2937);
-      color: #ffffff;
+      color: #fff;
       padding: 60px 20px;
       border-radius: 0 0 24px 24px;
     }
@@ -107,17 +91,6 @@
   </style>
 </head>
 <body>
-  <!-- GTM noscript -->
-  <noscript>
-    <iframe
-      src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
-      height="0"
-      width="0"
-      style="display: none; visibility: hidden"
-    ></iframe>
-  </noscript>
-
-  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
       <a class="navbar-brand fw-bold" href="#">TeeTrendz</a>
@@ -155,12 +128,11 @@
     </div>
   </nav>
 
-  <!-- Hero -->
   <section class="hero">
     <div class="container text-center">
       <h1 class="display-5 fw-bold">Premium T-Shirts for Every Style</h1>
       <p class="lead mb-4">
-        A demo e-commerce store built for learning GA4 and Google Tag Manager event tracking.
+        A demo e-commerce store built for learning Google Analytics events.
       </p>
       <button class="btn btn-primary btn-lg me-2" onclick="trackSimpleCTA('hero_shop_now')">
         Shop Now
@@ -173,7 +145,6 @@
 
   <div class="container my-5">
     <div class="row g-4">
-      <!-- Products -->
       <div class="col-lg-8">
         <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
           <h2 id="products" class="section-title mb-3 mb-md-0">Featured T-Shirts</h2>
@@ -188,12 +159,11 @@
         <div class="row g-4" id="productList"></div>
       </div>
 
-      <!-- Cart -->
       <div class="col-lg-4">
         <div class="card cart-box shadow-sm mb-4">
           <div class="card-body">
             <h4 class="card-title">Cart Summary</h4>
-            <p class="text-muted">Useful for testing add-to-cart and checkout events.</p>
+            <p class="text-muted">Useful for testing ecommerce button tracking.</p>
 
             <ul class="list-group mb-3" id="cartItems">
               <li class="list-group-item text-muted">No items in cart</li>
@@ -220,16 +190,15 @@
 
         <div class="card shadow-sm" id="analytics">
           <div class="card-body">
-            <h5>Analytics Training Notes</h5>
-            <p class="mb-2"><strong>Track these actions in GTM:</strong></p>
+            <h5>Tracked Events</h5>
             <ul class="mb-0">
               <li>view_item_list</li>
               <li>view_item_details</li>
               <li>add_to_cart</li>
               <li>remove_from_cart</li>
               <li>add_to_wishlist</li>
-              <li>apply_coupon</li>
               <li>begin_checkout</li>
+              <li>apply_coupon</li>
               <li>purchase_intent</li>
               <li>product_filter_click</li>
             </ul>
@@ -239,7 +208,6 @@
     </div>
   </div>
 
-  <!-- Product Details Modal -->
   <div class="modal fade" id="detailsModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -260,7 +228,7 @@
   <script>
     const products = [
       {
-        id: 101,
+        id: "101",
         name: "Classic Black Tee",
         category: "Casual",
         price: 499,
@@ -269,7 +237,7 @@
         description: "A clean black cotton t-shirt perfect for everyday wear."
       },
       {
-        id: 102,
+        id: "102",
         name: "Minimal White Tee",
         category: "Casual",
         price: 549,
@@ -278,7 +246,7 @@
         description: "Premium soft-touch white t-shirt with a modern fit."
       },
       {
-        id: 103,
+        id: "103",
         name: "Oversized Street Tee",
         category: "Oversized",
         price: 799,
@@ -287,7 +255,7 @@
         description: "Trendy oversized t-shirt for a bold streetwear style."
       },
       {
-        id: 104,
+        id: "104",
         name: "Graphic Printed Tee",
         category: "Printed",
         price: 899,
@@ -296,7 +264,7 @@
         description: "Eye-catching graphic t-shirt designed for statement looks."
       },
       {
-        id: 105,
+        id: "105",
         name: "Vintage Wash Tee",
         category: "Printed",
         price: 749,
@@ -305,7 +273,7 @@
         description: "Vintage-wash tee with comfortable fabric and faded styling."
       },
       {
-        id: 106,
+        id: "106",
         name: "Navy Oversized Premium Tee",
         category: "Oversized",
         price: 849,
@@ -318,20 +286,10 @@
     let cart = [];
     let filteredCategory = "All";
 
-    function pushToDataLayer(eventName, payload = {}) {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: eventName,
-        ...payload
-      });
-      console.log("dataLayer push:", eventName, payload);
-    }
-
     function getVisibleProducts() {
-      if (filteredCategory === "All") {
-        return products;
-      }
-      return products.filter((product) => product.category === filteredCategory);
+      return filteredCategory === "All"
+        ? products
+        : products.filter(product => product.category === filteredCategory);
     }
 
     function renderProducts() {
@@ -340,7 +298,7 @@
 
       productList.innerHTML = "";
 
-      visibleProducts.forEach((product) => {
+      visibleProducts.forEach(product => {
         const card = document.createElement("div");
         card.className = "col-md-6";
 
@@ -355,12 +313,11 @@
                 ₹${product.price}
                 <span class="old-price">₹${product.oldPrice}</span>
               </p>
-
               <div class="d-grid gap-2">
-                <button class="btn btn-primary" onclick="addToCart(${product.id})">Add to Cart</button>
-                <button class="btn btn-success" onclick="buyNow(${product.id})">Buy Now</button>
-                <button class="btn btn-outline-info" onclick="viewDetails(${product.id})">View Details</button>
-                <button class="btn btn-outline-danger" onclick="addToWishlist(${product.id})">Wishlist</button>
+                <button class="btn btn-primary" onclick="addToCart('${product.id}')">Add to Cart</button>
+                <button class="btn btn-success" onclick="buyNow('${product.id}')">Buy Now</button>
+                <button class="btn btn-outline-info" onclick="viewDetails('${product.id}')">View Details</button>
+                <button class="btn btn-outline-danger" onclick="addToWishlist('${product.id}')">Wishlist</button>
               </div>
             </div>
           </div>
@@ -369,17 +326,17 @@
         productList.appendChild(card);
       });
 
-      pushToDataLayer("view_item_list", {
-        ecommerce: {
-          item_list_name: filteredCategory + " T-Shirts",
-          items: visibleProducts.map((product) => ({
-            item_id: product.id,
-            item_name: product.name,
-            item_category: product.category,
-            price: product.price
-          }))
-        }
+      gtag('event', 'view_item_list', {
+        item_list_name: filteredCategory + ' T-Shirts',
+        items: visibleProducts.map(product => ({
+          item_id: product.id,
+          item_name: product.name,
+          item_category: product.category,
+          price: product.price
+        }))
       });
+
+      console.log('GA4 event:', 'view_item_list');
     }
 
     function updateCart() {
@@ -423,8 +380,8 @@
     }
 
     function addToCart(productId) {
-      const product = products.find((p) => p.id === productId);
-      const existingItem = cart.find((item) => item.id === productId);
+      const product = products.find(p => p.id === productId);
+      const existingItem = cart.find(item => item.id === productId);
 
       if (existingItem) {
         existingItem.quantity += 1;
@@ -434,40 +391,38 @@
 
       updateCart();
 
-      pushToDataLayer("add_to_cart", {
-        ecommerce: {
-          currency: "INR",
-          value: product.price,
-          items: [
-            {
-              item_id: product.id,
-              item_name: product.name,
-              item_category: product.category,
-              price: product.price,
-              quantity: 1
-            }
-          ]
-        }
+      gtag('event', 'add_to_cart', {
+        currency: 'INR',
+        value: product.price,
+        items: [
+          {
+            item_id: product.id,
+            item_name: product.name,
+            item_category: product.category,
+            price: product.price,
+            quantity: 1
+          }
+        ]
       });
+
+      console.log('GA4 event:', 'add_to_cart', product.name);
     }
 
     function removeFromCart(index) {
       const removedItem = cart[index];
 
-      pushToDataLayer("remove_from_cart", {
-        ecommerce: {
-          currency: "INR",
-          value: removedItem.price,
-          items: [
-            {
-              item_id: removedItem.id,
-              item_name: removedItem.name,
-              item_category: removedItem.category,
-              price: removedItem.price,
-              quantity: 1
-            }
-          ]
-        }
+      gtag('event', 'remove_from_cart', {
+        currency: 'INR',
+        value: removedItem.price,
+        items: [
+          {
+            item_id: removedItem.id,
+            item_name: removedItem.name,
+            item_category: removedItem.category,
+            price: removedItem.price,
+            quantity: 1
+          }
+        ]
       });
 
       if (removedItem.quantity > 1) {
@@ -477,39 +432,45 @@
       }
 
       updateCart();
+      console.log('GA4 event:', 'remove_from_cart', removedItem.name);
     }
 
     function clearCart() {
       cart = [];
       updateCart();
-      pushToDataLayer("cart_cleared");
-      alert("Cart cleared");
+
+      gtag('event', 'cart_cleared', {
+        event_category: 'ecommerce',
+        event_label: 'clear_cart'
+      });
+
+      console.log('GA4 event:', 'cart_cleared');
+      alert('Cart cleared');
     }
 
     function buyNow(productId) {
-      const product = products.find((p) => p.id === productId);
+      const product = products.find(p => p.id === productId);
 
-      pushToDataLayer("purchase_intent", {
-        ecommerce: {
-          currency: "INR",
-          value: product.price,
-          items: [
-            {
-              item_id: product.id,
-              item_name: product.name,
-              item_category: product.category,
-              price: product.price,
-              quantity: 1
-            }
-          ]
-        }
+      gtag('event', 'purchase_intent', {
+        currency: 'INR',
+        value: product.price,
+        items: [
+          {
+            item_id: product.id,
+            item_name: product.name,
+            item_category: product.category,
+            price: product.price,
+            quantity: 1
+          }
+        ]
       });
 
-      alert("Buy Now clicked for " + product.name);
+      console.log('GA4 event:', 'purchase_intent', product.name);
+      alert('Buy Now clicked for ' + product.name);
     }
 
     function viewDetails(productId) {
-      const product = products.find((p) => p.id === productId);
+      const product = products.find(p => p.id === productId);
 
       document.getElementById("modalProductName").innerText = product.name;
       document.getElementById("modalProductImage").src = product.image;
@@ -517,97 +478,107 @@
       document.getElementById("modalProductCategory").innerText = product.category;
       document.getElementById("modalProductPrice").innerText = product.price;
 
-      pushToDataLayer("view_item_details", {
-        ecommerce: {
-          items: [
-            {
-              item_id: product.id,
-              item_name: product.name,
-              item_category: product.category,
-              price: product.price
-            }
-          ]
-        }
+      gtag('event', 'view_item', {
+        currency: 'INR',
+        value: product.price,
+        items: [
+          {
+            item_id: product.id,
+            item_name: product.name,
+            item_category: product.category,
+            price: product.price
+          }
+        ]
       });
+
+      console.log('GA4 event:', 'view_item', product.name);
 
       const modal = new bootstrap.Modal(document.getElementById("detailsModal"));
       modal.show();
     }
 
     function addToWishlist(productId) {
-      const product = products.find((p) => p.id === productId);
+      const product = products.find(p => p.id === productId);
 
-      pushToDataLayer("add_to_wishlist", {
-        ecommerce: {
-          items: [
-            {
-              item_id: product.id,
-              item_name: product.name,
-              item_category: product.category,
-              price: product.price
-            }
-          ]
-        }
+      gtag('event', 'add_to_wishlist', {
+        currency: 'INR',
+        value: product.price,
+        items: [
+          {
+            item_id: product.id,
+            item_name: product.name,
+            item_category: product.category,
+            price: product.price
+          }
+        ]
       });
 
-      alert(product.name + " added to wishlist");
+      console.log('GA4 event:', 'add_to_wishlist', product.name);
+      alert(product.name + ' added to wishlist');
     }
 
     function applyCoupon() {
       const coupon = document.getElementById("couponInput").value.trim();
 
       if (!coupon) {
-        alert("Please enter a coupon code");
+        alert('Please enter a coupon code');
         return;
       }
 
-      pushToDataLayer("apply_coupon", {
-        coupon_code: coupon
+      gtag('event', 'select_promotion', {
+        promotion_name: coupon
       });
 
+      console.log('GA4 event:', 'select_promotion', coupon);
       alert('Coupon "' + coupon + '" applied');
     }
 
     function beginCheckout() {
       if (cart.length === 0) {
-        alert("Your cart is empty");
+        alert('Your cart is empty');
         return;
       }
 
       const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-      pushToDataLayer("begin_checkout", {
-        ecommerce: {
-          currency: "INR",
-          value: total,
-          items: cart.map((item) => ({
-            item_id: item.id,
-            item_name: item.name,
-            item_category: item.category,
-            price: item.price,
-            quantity: item.quantity
-          }))
-        }
+      gtag('event', 'begin_checkout', {
+        currency: 'INR',
+        value: total,
+        items: cart.map(item => ({
+          item_id: item.id,
+          item_name: item.name,
+          item_category: item.category,
+          price: item.price,
+          quantity: item.quantity
+        }))
       });
 
-      alert("Checkout started");
+      console.log('GA4 event:', 'begin_checkout');
+      alert('Checkout started');
     }
 
     function filterProducts(category) {
       filteredCategory = category;
       renderProducts();
 
-      pushToDataLayer("product_filter_click", {
-        selected_category: category
+      gtag('event', 'product_filter_click', {
+        filter_name: 'category',
+        filter_value: category
       });
+
+      console.log('GA4 event:', 'product_filter_click', category);
     }
 
     function trackSimpleCTA(eventName) {
-      pushToDataLayer(eventName);
-      alert("Tracked event: " + eventName);
+      gtag('event', eventName, {
+        event_category: 'engagement'
+      });
+
+      console.log('GA4 event:', eventName);
+      alert('Tracked event: ' + eventName);
     }
 
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener('DOMContentLoaded', function () {
       renderProducts();
       updateCart();
     });
