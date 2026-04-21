@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TeeTrendz | Contact Us</title>
+
+  <!-- Google Tag Manager -->
+  <script>
+    (function(w,d,s,l,i){
+      w[l]=w[l]||[];
+      w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
+      var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),
+          dl=l!='dataLayer' ? '&l='+l : '';
+      j.async=true;
+      j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+      f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WP93SPDF');
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --brand-dark: #0f172a;
+      --brand-accent: #2563eb;
+      --brand-soft: #eff6ff;
+      --text-muted: #64748b;
+    }
+
+    body {
+      background: #f8fafc;
+      color: #0f172a;
+    }
+
+    .navbar {
+      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
+    }
+
+    .page-banner {
+      background: linear-gradient(135deg, #0f172a, #1d4ed8);
+      color: white;
+      padding: 60px 0 40px;
+    }
+
+    .section-title {
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .mini-text {
+      color: var(--text-muted);
+    }
+
+    .cart-badge {
+      background: #facc15;
+      color: #111827;
+      border-radius: 999px;
+      padding: 0.28rem 0.7rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .contact-card,
+    .info-card,
+    .faq-card,
+    .cta-card {
+      border: none;
+      border-radius: 20px;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+    }
+
+    .info-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--brand-soft);
+      color: var(--brand-accent);
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .cta-banner {
+      background: linear-gradient(135deg, #1d4ed8, #0f172a);
+      color: white;
+      border-radius: 24px;
+    }
+
+    footer {
+      background: #0f172a;
+      color: white;
+    }
+
+    .footer-link {
+      color: #cbd5e1;
+      text-decoration: none;
+    }
+
+    .footer-link:hover {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe
+      src="https://www.googletagmanager.com/ns.html?id=GTM-WP93SPDF"
+      height="0"
+      width="0"
+      style="display:none;visibility:hidden"
+    ></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html">TeeTrendz</a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainNav"
+        aria-controls="mainNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+          <li class="nav-item"><a class="nav-link" href="product.html">Product</a></li>
+          <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
+          <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
+          <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+            <a class="btn btn-dark" href="cart.html">
+              Cart <span class="cart-badge ms-1" id="cartCount">0</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Banner -->
+  <section class="page-banner">
+    <div class="container">
+      <h1 class="display-6 fw-bold mb-2">Contact & Support</h1>
+      <p class="lead mb-0">Use this page to test lead forms, support intent, FAQ interactions, and newsletter opt-ins.</p>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Form -->
+        <div class="col-lg-7">
+          <div class="card contact-card p-4 p-lg-5">
+            <div class="mb-4">
+              <h2 class="section-title mb-1">Get in touch</h2>
+              <p class="mini-text mb-0">Share your question, request, or feedback and store demo submissions locally for practice.</p>
+            </div>
+
+            <form id="contactForm">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="contactName" class="form-label">Full Name</label>
+                  <input type="text" id="contactName" class="form-control" placeholder="Enter your name" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="contactEmail" class="form-label">Email Address</label>
+                  <input type="email" id="contactEmail" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="contactPhone" class="form-label">Phone Number</label>
+                  <input type="tel" id="contactPhone" class="form-control" placeholder="Enter phone number">
+                </div>
+                <div class="col-md-6">
+                  <label for="supportTopic" class="form-label">Topic</label>
+                  <select id="supportTopic" class="form-select" required>
+                    <option value="">Choose a topic</option>
+                    <option value="order_status">Order Status</option>
+                    <option value="shipping">Shipping & Delivery</option>
+                    <option value="returns">Returns & Exchange</option>
+                    <option value="product_query">Product Question</option>
+                    <option value="bulk_order">Bulk Order</option>
+                    <option value="general_support">General Support</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label for="contactMessage" class="form-label">Message</label>
+                  <textarea id="contactMessage" class="form-control" rows="5" placeholder="Write your message here" required></textarea>
+                </div>
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="newsletterOptIn">
+                    <label class="form-check-label" for="newsletterOptIn">
+                      Subscribe me to updates, new arrivals, and offers
+                    </label>
+                  </div>
+                </div>
+                <div class="col-12 d-grid d-md-flex gap-2">
+                  <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                  <a href="shop.html" class="btn btn-outline-dark btn-lg" onclick="trackCTA('contact_continue_shopping')">Continue Shopping</a>
+                </div>
+              </div>
+            </form>
+
+            <div class="alert alert-success mt-4 d-none" id="formSuccessMessage">
+              Your message was submitted successfully.
+            </div>
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div class="col-lg-5">
+          <div class="row g-4">
+            <div class="col-12">
+              <div class="card info-card p-4 h-100">
+                <div class="info-icon">☎</div>
+                <h5 class="fw-bold">Customer Support</h5>
+                <p class="mini-text mb-1">Mon - Sat, 9:00 AM to 7:00 PM</p>
+                <p class="mb-0 fw-semibold">+91 98765 43210</p>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="card info-card p-4 h-100">
+                <div class="info-icon">✉</div>
+                <h5 class="fw-bold">Email Support</h5>
+                <p class="mini-text mb-1">For orders, returns, and partnerships</p>
+                <p class="mb-0 fw-semibold">support@teetrendz.demo</p>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="card info-card p-4 h-100">
+                <div class="info-icon">⌂</div>
+                <h5 class="fw-bold">Store Office</h5>
+                <p class="mini-text mb-0">
+                  21 Fashion Street, Chennai, Tamil Nadu, India<br>
+                  Demo address for analytics learning purposes
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="pb-5">
+    <div class="container">
+      <div class="mb-4">
+        <h2 class="section-title mb-1">Frequently Asked Questions</h2>
+        <p class="mini-text mb-0">Each FAQ click is useful for engagement tracking.</p>
+      </div>
+
+      <div class="accordion" id="faqAccordion">
+        <div class="accordion-item faq-card mb-3">
+          <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqOne" onclick="trackFAQ('shipping_time')">
+              How long does shipping take?
+            </button>
+          </h2>
+          <div id="faqOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Most orders are dispatched within 24–48 hours and delivered within 3–7 working days depending on the location.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item faq-card mb-3">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqTwo" onclick="trackFAQ('return_policy')">
+              Can I return or exchange a T-shirt?
+            </button>
+          </h2>
+          <div id="faqTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Yes. Returns and exchanges are available within 7 days for eligible unused products with original packaging.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item faq-card mb-3">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqThree" onclick="trackFAQ('size_help')">
+              How do I choose the right size?
+            </button>
+          </h2>
+          <div id="faqThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Start with your regular size for standard fits. For oversized products, keep your usual size unless you want a more fitted look.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="pb-5">
+    <div class="container">
+      <div class="cta-banner p-4 p-md-5">
+        <div class="row align-items-center">
+          <div class="col-lg-8">
+            <h3 class="fw-bold mb-2">Still browsing?</h3>
+            <p class="mb-0">Explore more styles, add products to your cart, and continue testing your ecommerce funnel.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+            <a href="shop.html" class="btn btn-light btn-lg" onclick="trackCTA('contact_banner_shop_now')">Go to Shop</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-5 mt-5">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <h5 class="fw-bold">TeeTrendz</h5>
+          <p class="text-white-50 mb-0">
+            A realistic learning project for Google Analytics, Tag Manager, ecommerce events, and lead form tracking.
+          </p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h6 class="fw-bold">Store</h6>
+          <ul class="list-unstyled mb-0">
+            <li><a class="footer-link" href="index.html">Home</a></li>
+            <li><a class="footer-link" href="shop.html">Shop</a></li>
+            <li><a class="footer-link" href="cart.html">Cart</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h6 class="fw-bold">Help</h6>
+          <ul class="list-unstyled mb-0">
+            <li><a class="footer-link" href="contact.html">Contact</a></li>
+            <li><a class="footer-link" href="contact.html">Support</a></li>
+            <li><a class="footer-link" href="contact.html">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4">
+          <h6 class="fw-bold">What to test here</h6>
+          <p class="text-white-50 mb-0">
+            Contact form start, topic selection, newsletter opt-in, form submit, FAQ clicks, and navigation CTA events.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function trackEvent(eventName, payload = {}) {
+      window.dataLayer.push({
+        event: eventName,
+        ...payload
+      });
+      console.log("dataLayer event:", eventName, payload);
+    }
+
+    function getCart() {
+      return JSON.parse(localStorage.getItem("teetrendz_cart")) || [];
+    }
+
+    function updateCartCount() {
+      const cart = getCart();
+      const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById("cartCount").textContent = totalQty;
+    }
+
+    function saveContactSubmission(formData) {
+      const existing = JSON.parse(localStorage.getItem("teetrendz_contact_submissions")) || [];
+      existing.push(formData);
+      localStorage.setItem("teetrendz_contact_submissions", JSON.stringify(existing));
+    }
+
+    function setupContactForm() {
+      const form = document.getElementById("contactForm");
+      const successBox = document.getElementById("formSuccessMessage");
+      let started = false;
+
+      form.addEventListener("focusin", function() {
+        if (!started) {
+          started = true;
+          trackEvent("contact_form_start", {
+            form_name: "contact_support_form"
+          });
+        }
+      });
+
+      document.getElementById("supportTopic").addEventListener("change", function() {
+        if (this.value) {
+          trackEvent("support_topic_select", {
+            selected_topic: this.value
+          });
+        }
+      });
+
+      document.getElementById("newsletterOptIn").addEventListener("change", function() {
+        trackEvent("newsletter_optin_toggle", {
+          opted_in: this.checked ? "yes" : "no"
+        });
+      });
+
+      form.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const formData = {
+          name: document.getElementById("contactName").value.trim(),
+          email: document.getElementById("contactEmail").value.trim(),
+          phone: document.getElementById("contactPhone").value.trim(),
+          topic: document.getElementById("supportTopic").value,
+          message: document.getElementById("contactMessage").value.trim(),
+          newsletterOptIn: document.getElementById("newsletterOptIn").checked,
+          submittedAt: new Date().toISOString()
+        };
+
+        saveContactSubmission(formData);
+
+        trackEvent("contact_form_submit", {
+          form_name: "contact_support_form",
+          selected_topic: formData.topic,
+          newsletter_opt_in: formData.newsletterOptIn ? "yes" : "no"
+        });
+
+        form.reset();
+        successBox.classList.remove("d-none");
+        setTimeout(() => successBox.classList.add("d-none"), 2500);
+      });
+    }
+
+    function trackFAQ(faqName) {
+      trackEvent("faq_click", {
+        faq_name: faqName
+      });
+    }
+
+    function trackCTA(name) {
+      trackEvent(name, {
+        page_type: "contact"
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      updateCartCount();
+      setupContactForm();
+
+      trackEvent("contact_page_view", {
+        page_type: "contact"
+      });
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
