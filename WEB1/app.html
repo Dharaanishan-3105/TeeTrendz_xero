@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TeeTrendz | T-Shirt Store Demo</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Tag Manager -->
+  <!-- Replace GTM-XXXXXXX with your container ID -->
+  <script>
+    (function(w,d,s,l,i){
+      w[l]=w[l]||[];
+      w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
+      var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),
+          dl=l!='dataLayer'?'&l='+l:'';
+      j.async=true;
+      j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+      f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-XXXXXXX');
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <!-- Google Analytics 4 -->
+  <!-- Replace G-XXXXXXXXXX with your GA4 Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <style>
+    body {
+      background: #f8f9fa;
+    }
+    .hero {
+      background: linear-gradient(135deg, #111827, #1f2937);
+      color: white;
+      padding: 60px 20px;
+      border-radius: 0 0 24px 24px;
+    }
+    .product-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      height: 100%;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+    }
+    .product-img {
+      height: 240px;
+      object-fit: cover;
+      border-top-left-radius: .5rem;
+      border-top-right-radius: .5rem;
+    }
+    .badge-custom {
+      font-size: 0.8rem;
+    }
+    .cart-box {
+      position: sticky;
+      top: 20px;
+    }
+    .small-btns .btn {
+      margin-bottom: 8px;
+      width: 100%;
+    }
+    .price {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #198754;
+    }
+    .old-price {
+      text-decoration: line-through;
+      color: #6c757d;
+      margin-left: 8px;
+      font-size: 0.95rem;
+    }
+    .section-title {
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- GTM noscript -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">TeeTrendz</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navDemo">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navDemo">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#products">Shop</a></li>
+          <li class="nav-item"><a class="nav-link" href="#analytics">Analytics Notes</a></li>
+          <li class="nav-item">
+            <button class="btn btn-warning ms-lg-3" onclick="trackSimpleCTA('nav_offer_click')">Today's Offer</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container text-center">
+      <h1 class="display-5 fw-bold">Premium T-Shirts for Every Style</h1>
+      <p class="lead mb-4">A demo e-commerce store built for learning GA4 and Google Tag Manager event tracking.</p>
+      <button class="btn btn-primary btn-lg me-2" onclick="trackSimpleCTA('hero_shop_now')">Shop Now</button>
+      <button class="btn btn-outline-light btn-lg" onclick="trackSimpleCTA('hero_explore_collection')">Explore Collection</button>
+    </div>
+  </section>
+
+  <div class="container my-5">
+    <div class="row g-4">
+      
+      <!-- Left content -->
+      <div class="col-lg-8">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+          <h2 id="products" class="section-title mb-3 mb-md-0">Featured T-Shirts</h2>
+          <div class="btn-group" role="group" aria-label="Filter Buttons">
+            <button class="btn btn-outline-dark" onclick="filterProducts('All')">All</button>
+            <button class="btn btn-outline-primary" onclick="filterProducts('Casual')">Casual</button>
+            <button class="btn btn-outline-success" onclick="filterProducts('Oversized')">Oversized</button>
+            <button class="btn btn-outline-danger" onclick="filterProducts('Printed')">Printed</button>
+          </div>
+        </div>
+
+        <div class="row g-4" id="productList"></div>
+      </div>
+
+      <!-- Right cart / analytics -->
+      <div class="col-lg-4">
+        <div class="card cart-box shadow-sm mb-4">
+          <div class="card-body">
+            <h4 class="card-title">Cart Summary</h4>
+            <p class="text-muted">Useful for testing add-to-cart and checkout events.</p>
+            <ul class="list-group mb-3" id="cartItems">
+              <li class="list-group-item text-muted">No items in cart</li>
+            </ul>
+            <h5>Total: ₹<span id="cartTotal">0</span></h5>
+
+            <div class="mt-3">
+              <label class="form-label">Coupon Code</label>
+              <div class="input-group mb-3">
+                <input type="text" id="couponInput" class="form-control" placeholder="Enter coupon">
+                <button class="btn btn-success" onclick="applyCoupon()">Apply Coupon</button>
+              </div>
+            </div>
+
+            <div class="small-btns">
+              <button class="btn btn-primary" onclick="beginCheckout()">Checkout</button>
+              <button class="btn btn-outline-secondary" onclick="trackSimpleCTA('size_guide_open')">Size Guide</button>
+              <button class="btn btn-outline-info" onclick="trackSimpleCTA('customer_support_click')">Customer Support</button>
+              <button class="btn btn-outline-dark" onclick="clearCart()">Clear Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card shadow-sm" id="analytics">
+          <div class="card-body">
+            <h5>Analytics Training Notes</h5>
+            <p class="mb-2"><strong>Track these actions in GTM:</strong></p>
+            <ul class="mb-0">
+              <li>Product clicks</li>
+              <li>View item details</li>
+              <li>Add to wishlist</li>
+              <li>Add to cart</li>
+              <li>Apply coupon</li>
+              <li>Begin checkout</li>
+              <li>Buy now intent</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product details modal -->
+  <div class="modal fade" id="detailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalProductName">Product Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <img id="modalProductImage" src="" alt="Product" class="img-fluid rounded mb-3">
+          <p id="modalProductDescription"></p>
+          <p><strong>Category:</strong> <span id="modalProductCategory"></span></p>
+          <p><strong>Price:</strong> ₹<span id="modalProductPrice"></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const products = [
+      {
+        id: 101,
+        name: "Classic Black Tee",
+        category: "Casual",
+        price: 499,
+        oldPrice: 699,
+        image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80",
+        description: "A clean black cotton t-shirt perfect for everyday wear."
+      },
+      {
+        id: 102,
+        name: "Minimal White Tee",
+        category: "Casual",
+        price: 549,
+        oldPrice: 749,
+        image: "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=800&q=80",
+        description: "Premium soft-touch white t-shirt with a modern fit."
+      },
+      {
+        id: 103,
+        name: "Oversized Street Tee",
+        category: "Oversized",
+        price: 799,
+        oldPrice: 999,
+        image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=80",
+        description: "Trendy oversized t-shirt for a bold streetwear style."
+      },
+      {
+        id: 104,
+        name: "Graphic Printed Tee",
+        category: "Printed",
+        price: 899,
+        oldPrice: 1199,
+        image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80",
+        description: "Eye-catching graphic t-shirt designed for statement looks."
+      },
+      {
+        id: 105,
+        name: "Vintage Wash Tee",
+        category: "Printed",
+        price: 749,
+        oldPrice: 949,
+        image: "https://images.unsplash.com/photo-1484515991647-c5760fcecfc7?auto=format&fit=crop&w=800&q=80",
+        description: "Vintage-wash tee with comfortable fabric and faded styling."
+      },
+      {
+        id: 106,
+        name: "Navy Oversized Premium Tee",
+        category: "Oversized",
+        price: 849,
+        oldPrice: 1099,
+        image: "https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=800&q=80",
+        description: "Premium oversized navy t-shirt for relaxed all-day comfort."
+      }
+    ];
+
+    let cart = [];
+    let filteredCategory = "All";
+
+    function pushToDataLayer(eventName, payload = {}) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: eventName,
+        ...payload
+      });
+      console.log("dataLayer event:", eventName, payload);
+    }
+
+    function renderProducts() {
+      const productList = document.getElementById("productList");
+      productList.innerHTML = "";
+
+      const visibleProducts = filteredCategory === "All"
+        ? products
+        : products.filter(p => p.category === filteredCategory);
+
+      visibleProducts.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "col-md-6";
+
+        card.innerHTML = `
+          <div class="card product-card shadow-sm">
+            <img src="${product.image}" class="product-img card-img-top" alt="${product.name}">
+            <div class="card-body">
+              <span class="badge bg-secondary badge-custom mb-2">${product.category}</span>
+              <h5 class="card-title">${product.name}</h5>
+              <p class="card-text">${product.description}</p>
+              <p class="price">
+                ₹${product.price}
+                <span class="old-price">₹${product.oldPrice}</span>
+              </p>
+
+              <div class="d-grid gap-2">
+                <button class="btn btn-primary" onclick="addToCart(${product.id})">Add to Cart</button>
+                <button class="btn btn-success" onclick="buyNow(${product.id})">Buy Now</button>
+                <button class="btn btn-outline-info" onclick="viewDetails(${product.id})">View Details</button>
+                <button class="btn btn-outline-danger" onclick="addToWishlist(${product.id})">Wishlist</button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        productList.appendChild(card);
+
+        // Simulate item impression / view_item_list
+        pushToDataLayer("view_item_list", {
+          ecommerce: {
+            items: [
+              {
+                item_id: product.id,
+                item_name: product.name,
+                item_category: product.category,
+                price: product.price
+              }
+            ]
+          }
+        });
+      });
+    }
+
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      cart.push(product);
+      updateCart();
+
+      pushToDataLayer("add_to_cart", {
+        ecommerce: {
+          currency: "INR",
+          value: product.price,
+          items: [
+            {
+              item_id: product.id,
+              item_name: product.name,
+              item_category: product.category,
+              price: product.price,
+              quantity: 1
+            }
+          ]
+        }
+      });
+    }
+
+    function buyNow(productId) {
+      const product = products.find(p => p.id === productId);
+
+      pushToDataLayer("purchase_intent", {
+        ecommerce: {
+          currency: "INR",
+          value: product.price,
+          items: [
+            {
+              item_id: product.id,
+              item_name: product.name,
+              item_category: product.category,
+              price: product.price
+            }
+          ]
+        }
+      });
+
+      alert(`Buy Now clicked for ${product.name}`);
+    }
+
+    function viewDetails(productId) {
+      const product = products.find(p => p.id === productId);
+
+      document.getElementById("modalProductName").innerText = product.name;
+      document.getElementById("modalProductImage").src = product.image;
+      document.getElementById("modalProductDescription").innerText = product.description;
+      document.getElementById("modalProductCategory").innerText = product.category;
+      document.getElementById("modalProductPrice").innerText = product.price;
+
+      pushToDataLayer("view_item_details", {
+        ecommerce: {
+          items: [
+            {
+              item_id: product.id,
+              item_name: product.name,
+              item_category: product.category,
+              price: product.price
+            }
+          ]
+        }
+      });
+
+      const modal = new bootstrap.Modal(document.getElementById('detailsModal'));
+      modal.show();
+    }
+
+    function addToWishlist(productId) {
+      const product = products.find(p => p.id === productId);
+
+      pushToDataLayer("add_to_wishlist", {
+        ecommerce: {
+          items: [
+            {
+              item_id: product.id,
+              item_name: product.name,
+              item_category: product.category,
+              price: product.price
+            }
+          ]
+        }
+      });
+
+      alert(`${product.name} added to wishlist`);
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById("cartItems");
+      const cartTotal = document.getElementById("cartTotal");
+
+      cartItems.innerHTML = "";
+
+      if (cart.length === 0) {
+        cartItems.innerHTML = `<li class="list-group-item text-muted">No items in cart</li>`;
+        cartTotal.innerText = "0";
+        return;
+      }
+
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price;
+
+        const li = document.createElement("li");
+        li.className = "list-group-item d-flex justify-content-between align-items-center";
+        li.innerHTML = `
+          <span>${item.name}</span>
+          <div>
+            <span class="me-2">₹${item.price}</span>
+            <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${index})">X</button>
+          </div>
+        `;
+        cartItems.appendChild(li);
+      });
+
+      cartTotal.innerText = total;
+    }
+
+    function removeFromCart(index) {
+      const removedItem = cart[index];
+      cart.splice(index, 1);
+      updateCart();
+
+      pushToDataLayer("remove_from_cart", {
+        ecommerce: {
+          items: [
+            {
+              item_id: removedItem.id,
+              item_name: removedItem.name,
+              item_category: removedItem.category,
+              price: removedItem.price
+            }
+          ]
+        }
+      });
+    }
+
+    function clearCart() {
+      cart = [];
+      updateCart();
+      pushToDataLayer("cart_cleared", {});
+    }
+
+    function applyCoupon() {
+      const coupon = document.getElementById("couponInput").value.trim();
+
+      pushToDataLayer("apply_coupon", {
+        coupon_code: coupon || "empty_coupon"
+      });
+
+      alert(coupon ? `Coupon "${coupon}" applied` : "Please enter a coupon code");
+    }
+
+    function beginCheckout() {
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+      pushToDataLayer("begin_checkout", {
+        ecommerce: {
+          currency: "INR",
+          value: total,
+          items: cart.map(item => ({
+            item_id: item.id,
+            item_name: item.name,
+            item_category: item.category,
+            price: item.price,
+            quantity: 1
+          }))
+        }
+      });
+
+      alert("Checkout started");
+    }
+
+    function filterProducts(category) {
+      filteredCategory = category;
+      renderProducts();
+
+      pushToDataLayer("product_filter_click", {
+        selected_category: category
+      });
+    }
+
+    function trackSimpleCTA(eventName) {
+      pushToDataLayer(eventName, {});
+      alert(`Tracked event: ${eventName}`);
+    }
+
+    // Initial load
+    renderProducts();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
