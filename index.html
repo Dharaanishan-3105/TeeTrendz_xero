@@ -3,109 +3,156 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TeeTrendz | T-Shirt Store</title>
+  <title>TeeTrendz | T-Shirt Store Demo</title>
 
   <!-- Bootstrap 5 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
 
   <!-- Google Tag Manager -->
-  <!-- Replace GTM-XXXXXXX with your container ID -->
+  <!-- Replace GTM-XXXXXXX with your GTM container ID -->
   <script>
-    (function(w,d,s,l,i){
-      w[l]=w[l]||[];
-      w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
-      var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),
-          dl=l!='dataLayer'?'&l='+l:'';
-      j.async=true;
-      j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-      f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-XXXXXXX');
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l !== "dataLayer" ? "&l=" + l : "";
+      j.async = true;
+      j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-XXXXXXX");
   </script>
   <!-- End Google Tag Manager -->
 
-  <!-- Google Analytics 4 -->
-  <!-- Replace G-XXXXXXXXXX with your GA4 Measurement ID -->
+  <!-- Optional direct GA4 tag -->
+  <!-- Keep this only if you want direct GA4 along with GTM for learning -->
+  <!-- Replace G-XXXXXXXXXX with your Measurement ID -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-XXXXXXXXXX");
   </script>
 
   <style>
     body {
-      background: #f8f9fa;
+      background-color: #f8f9fa;
     }
+
     .hero {
       background: linear-gradient(135deg, #111827, #1f2937);
-      color: white;
+      color: #ffffff;
       padding: 60px 20px;
       border-radius: 0 0 24px 24px;
     }
+
     .product-card {
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       height: 100%;
     }
+
     .product-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
     }
+
     .product-img {
       height: 240px;
       object-fit: cover;
-      border-top-left-radius: .5rem;
-      border-top-right-radius: .5rem;
+      border-top-left-radius: 0.5rem;
+      border-top-right-radius: 0.5rem;
     }
+
     .badge-custom {
       font-size: 0.8rem;
     }
+
     .cart-box {
       position: sticky;
       top: 20px;
     }
+
     .small-btns .btn {
       margin-bottom: 8px;
       width: 100%;
     }
+
     .price {
       font-weight: 700;
       font-size: 1.2rem;
       color: #198754;
     }
+
     .old-price {
       text-decoration: line-through;
       color: #6c757d;
       margin-left: 8px;
       font-size: 0.95rem;
     }
+
     .section-title {
       font-weight: 700;
+    }
+
+    .cart-pill {
+      font-size: 0.9rem;
+      background: #ffc107;
+      color: #000;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
-
   <!-- GTM noscript -->
   <noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    <iframe
+      src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+      height="0"
+      width="0"
+      style="display: none; visibility: hidden"
+    ></iframe>
   </noscript>
 
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
       <a class="navbar-brand fw-bold" href="#">TeeTrendz</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navDemo">
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navDemo"
+        aria-controls="navDemo"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navDemo">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#products">Shop</a></li>
-          <li class="nav-item"><a class="nav-link" href="#analytics">Analytics Notes</a></li>
+        <ul class="navbar-nav ms-auto align-items-lg-center">
           <li class="nav-item">
-            <button class="btn btn-warning ms-lg-3" onclick="trackSimpleCTA('nav_offer_click')">Today's Offer</button>
+            <a class="nav-link" href="#products">Shop</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#analytics">Analytics Notes</a>
+          </li>
+          <li class="nav-item me-lg-3">
+            <button class="btn btn-warning ms-lg-3" onclick="trackSimpleCTA('nav_offer_click')">
+              Today's Offer
+            </button>
+          </li>
+          <li class="nav-item mt-2 mt-lg-0">
+            <span class="cart-pill">Cart: <span id="cartCount">0</span></span>
           </li>
         </ul>
       </div>
@@ -116,16 +163,21 @@
   <section class="hero">
     <div class="container text-center">
       <h1 class="display-5 fw-bold">Premium T-Shirts for Every Style</h1>
-      <p class="lead mb-4">A demo e-commerce store built for learning GA4 and Google Tag Manager event tracking.</p>
-      <button class="btn btn-primary btn-lg me-2" onclick="trackSimpleCTA('hero_shop_now')">Shop Now</button>
-      <button class="btn btn-outline-light btn-lg" onclick="trackSimpleCTA('hero_explore_collection')">Explore Collection</button>
+      <p class="lead mb-4">
+        A demo e-commerce store built for learning GA4 and Google Tag Manager event tracking.
+      </p>
+      <button class="btn btn-primary btn-lg me-2" onclick="trackSimpleCTA('hero_shop_now')">
+        Shop Now
+      </button>
+      <button class="btn btn-outline-light btn-lg" onclick="trackSimpleCTA('hero_explore_collection')">
+        Explore Collection
+      </button>
     </div>
   </section>
 
   <div class="container my-5">
     <div class="row g-4">
-      
-      <!-- Left content -->
+      <!-- Products -->
       <div class="col-lg-8">
         <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
           <h2 id="products" class="section-title mb-3 mb-md-0">Featured T-Shirts</h2>
@@ -140,21 +192,23 @@
         <div class="row g-4" id="productList"></div>
       </div>
 
-      <!-- Right cart / analytics -->
+      <!-- Cart -->
       <div class="col-lg-4">
         <div class="card cart-box shadow-sm mb-4">
           <div class="card-body">
             <h4 class="card-title">Cart Summary</h4>
             <p class="text-muted">Useful for testing add-to-cart and checkout events.</p>
+
             <ul class="list-group mb-3" id="cartItems">
               <li class="list-group-item text-muted">No items in cart</li>
             </ul>
+
             <h5>Total: ₹<span id="cartTotal">0</span></h5>
 
             <div class="mt-3">
-              <label class="form-label">Coupon Code</label>
+              <label for="couponInput" class="form-label">Coupon Code</label>
               <div class="input-group mb-3">
-                <input type="text" id="couponInput" class="form-control" placeholder="Enter coupon">
+                <input type="text" id="couponInput" class="form-control" placeholder="Enter coupon" />
                 <button class="btn btn-success" onclick="applyCoupon()">Apply Coupon</button>
               </div>
             </div>
@@ -173,13 +227,15 @@
             <h5>Analytics Training Notes</h5>
             <p class="mb-2"><strong>Track these actions in GTM:</strong></p>
             <ul class="mb-0">
-              <li>Product clicks</li>
-              <li>View item details</li>
-              <li>Add to wishlist</li>
-              <li>Add to cart</li>
-              <li>Apply coupon</li>
-              <li>Begin checkout</li>
-              <li>Buy now intent</li>
+              <li>view_item_list</li>
+              <li>view_item_details</li>
+              <li>add_to_cart</li>
+              <li>remove_from_cart</li>
+              <li>add_to_wishlist</li>
+              <li>apply_coupon</li>
+              <li>begin_checkout</li>
+              <li>purchase_intent</li>
+              <li>product_filter_click</li>
             </ul>
           </div>
         </div>
@@ -187,16 +243,16 @@
     </div>
   </div>
 
-  <!-- Product details modal -->
+  <!-- Product Details Modal -->
   <div class="modal fade" id="detailsModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="modalProductName">Product Details</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <img id="modalProductImage" src="" alt="Product" class="img-fluid rounded mb-3">
+          <img id="modalProductImage" src="" alt="Product" class="img-fluid rounded mb-3" />
           <p id="modalProductDescription"></p>
           <p><strong>Category:</strong> <span id="modalProductCategory"></span></p>
           <p><strong>Price:</strong> ₹<span id="modalProductPrice"></span></p>
@@ -272,18 +328,23 @@
         event: eventName,
         ...payload
       });
-      console.log("dataLayer event:", eventName, payload);
+      console.log("dataLayer push:", eventName, payload);
+    }
+
+    function getVisibleProducts() {
+      if (filteredCategory === "All") {
+        return products;
+      }
+      return products.filter((product) => product.category === filteredCategory);
     }
 
     function renderProducts() {
       const productList = document.getElementById("productList");
+      const visibleProducts = getVisibleProducts();
+
       productList.innerHTML = "";
 
-      const visibleProducts = filteredCategory === "All"
-        ? products
-        : products.filter(p => p.category === filteredCategory);
-
-      visibleProducts.forEach(product => {
+      visibleProducts.forEach((product) => {
         const card = document.createElement("div");
         card.className = "col-md-6";
 
@@ -310,26 +371,71 @@
         `;
 
         productList.appendChild(card);
+      });
 
-        // Simulate item impression / view_item_list
-        pushToDataLayer("view_item_list", {
-          ecommerce: {
-            items: [
-              {
-                item_id: product.id,
-                item_name: product.name,
-                item_category: product.category,
-                price: product.price
-              }
-            ]
-          }
-        });
+      pushToDataLayer("view_item_list", {
+        ecommerce: {
+          item_list_name: filteredCategory + " T-Shirts",
+          items: visibleProducts.map((product) => ({
+            item_id: product.id,
+            item_name: product.name,
+            item_category: product.category,
+            price: product.price
+          }))
+        }
       });
     }
 
+    function updateCart() {
+      const cartItems = document.getElementById("cartItems");
+      const cartTotal = document.getElementById("cartTotal");
+      const cartCount = document.getElementById("cartCount");
+
+      cartItems.innerHTML = "";
+
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<li class="list-group-item text-muted">No items in cart</li>';
+        cartTotal.innerText = "0";
+        cartCount.innerText = "0";
+        return;
+      }
+
+      let total = 0;
+      let itemCount = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price * item.quantity;
+        itemCount += item.quantity;
+
+        const li = document.createElement("li");
+        li.className = "list-group-item d-flex justify-content-between align-items-center";
+        li.innerHTML = `
+          <div>
+            <strong>${item.name}</strong><br>
+            <small>Qty: ${item.quantity}</small>
+          </div>
+          <div>
+            <span class="me-2">₹${item.price * item.quantity}</span>
+            <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${index})">X</button>
+          </div>
+        `;
+        cartItems.appendChild(li);
+      });
+
+      cartTotal.innerText = total;
+      cartCount.innerText = itemCount;
+    }
+
     function addToCart(productId) {
-      const product = products.find(p => p.id === productId);
-      cart.push(product);
+      const product = products.find((p) => p.id === productId);
+      const existingItem = cart.find((item) => item.id === productId);
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+
       updateCart();
 
       pushToDataLayer("add_to_cart", {
@@ -349,8 +455,43 @@
       });
     }
 
+    function removeFromCart(index) {
+      const removedItem = cart[index];
+
+      pushToDataLayer("remove_from_cart", {
+        ecommerce: {
+          currency: "INR",
+          value: removedItem.price,
+          items: [
+            {
+              item_id: removedItem.id,
+              item_name: removedItem.name,
+              item_category: removedItem.category,
+              price: removedItem.price,
+              quantity: 1
+            }
+          ]
+        }
+      });
+
+      if (removedItem.quantity > 1) {
+        removedItem.quantity -= 1;
+      } else {
+        cart.splice(index, 1);
+      }
+
+      updateCart();
+    }
+
+    function clearCart() {
+      cart = [];
+      updateCart();
+      pushToDataLayer("cart_cleared");
+      alert("Cart cleared");
+    }
+
     function buyNow(productId) {
-      const product = products.find(p => p.id === productId);
+      const product = products.find((p) => p.id === productId);
 
       pushToDataLayer("purchase_intent", {
         ecommerce: {
@@ -361,17 +502,18 @@
               item_id: product.id,
               item_name: product.name,
               item_category: product.category,
-              price: product.price
+              price: product.price,
+              quantity: 1
             }
           ]
         }
       });
 
-      alert(`Buy Now clicked for ${product.name}`);
+      alert("Buy Now clicked for " + product.name);
     }
 
     function viewDetails(productId) {
-      const product = products.find(p => p.id === productId);
+      const product = products.find((p) => p.id === productId);
 
       document.getElementById("modalProductName").innerText = product.name;
       document.getElementById("modalProductImage").src = product.image;
@@ -392,12 +534,12 @@
         }
       });
 
-      const modal = new bootstrap.Modal(document.getElementById('detailsModal'));
+      const modal = new bootstrap.Modal(document.getElementById("detailsModal"));
       modal.show();
     }
 
     function addToWishlist(productId) {
-      const product = products.find(p => p.id === productId);
+      const product = products.find((p) => p.id === productId);
 
       pushToDataLayer("add_to_wishlist", {
         ecommerce: {
@@ -412,89 +554,42 @@
         }
       });
 
-      alert(`${product.name} added to wishlist`);
-    }
-
-    function updateCart() {
-      const cartItems = document.getElementById("cartItems");
-      const cartTotal = document.getElementById("cartTotal");
-
-      cartItems.innerHTML = "";
-
-      if (cart.length === 0) {
-        cartItems.innerHTML = `<li class="list-group-item text-muted">No items in cart</li>`;
-        cartTotal.innerText = "0";
-        return;
-      }
-
-      let total = 0;
-
-      cart.forEach((item, index) => {
-        total += item.price;
-
-        const li = document.createElement("li");
-        li.className = "list-group-item d-flex justify-content-between align-items-center";
-        li.innerHTML = `
-          <span>${item.name}</span>
-          <div>
-            <span class="me-2">₹${item.price}</span>
-            <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${index})">X</button>
-          </div>
-        `;
-        cartItems.appendChild(li);
-      });
-
-      cartTotal.innerText = total;
-    }
-
-    function removeFromCart(index) {
-      const removedItem = cart[index];
-      cart.splice(index, 1);
-      updateCart();
-
-      pushToDataLayer("remove_from_cart", {
-        ecommerce: {
-          items: [
-            {
-              item_id: removedItem.id,
-              item_name: removedItem.name,
-              item_category: removedItem.category,
-              price: removedItem.price
-            }
-          ]
-        }
-      });
-    }
-
-    function clearCart() {
-      cart = [];
-      updateCart();
-      pushToDataLayer("cart_cleared", {});
+      alert(product.name + " added to wishlist");
     }
 
     function applyCoupon() {
       const coupon = document.getElementById("couponInput").value.trim();
 
+      if (!coupon) {
+        alert("Please enter a coupon code");
+        return;
+      }
+
       pushToDataLayer("apply_coupon", {
-        coupon_code: coupon || "empty_coupon"
+        coupon_code: coupon
       });
 
-      alert(coupon ? `Coupon "${coupon}" applied` : "Please enter a coupon code");
+      alert('Coupon "' + coupon + '" applied');
     }
 
     function beginCheckout() {
-      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      if (cart.length === 0) {
+        alert("Your cart is empty");
+        return;
+      }
+
+      const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
       pushToDataLayer("begin_checkout", {
         ecommerce: {
           currency: "INR",
           value: total,
-          items: cart.map(item => ({
+          items: cart.map((item) => ({
             item_id: item.id,
             item_name: item.name,
             item_category: item.category,
             price: item.price,
-            quantity: 1
+            quantity: item.quantity
           }))
         }
       });
@@ -512,12 +607,14 @@
     }
 
     function trackSimpleCTA(eventName) {
-      pushToDataLayer(eventName, {});
-      alert(`Tracked event: ${eventName}`);
+      pushToDataLayer(eventName);
+      alert("Tracked event: " + eventName);
     }
 
-    // Initial load
-    renderProducts();
+    document.addEventListener("DOMContentLoaded", function () {
+      renderProducts();
+      updateCart();
+    });
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
