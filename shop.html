@@ -197,6 +197,11 @@
           <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
           <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
           <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+            <button class="btn btn-outline-dark" id="searchBtn" data-bs-toggle="modal" data-bs-target="#searchModal">
+              🔍 Search
+            </button>
+          </li>
+          <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
             <a class="btn btn-dark" href="cart.html">
               Cart <span class="cart-badge ms-1" id="cartCount">0</span>
             </a>
@@ -222,12 +227,15 @@
 
             <div class="mb-3">
               <label for="searchInput" class="form-label">Search</label>
-              <input
-                type="text"
-                id="searchInput"
-                class="form-control"
-                placeholder="Search by name or category"
-              />
+              <div class="input-group">
+                <input
+                  type="text"
+                  id="searchInput"
+                  class="form-control"
+                  placeholder="Search by name or category"
+                />
+                <button class="btn btn-primary" type="button" id="searchBtnFilter">🔍 Search</button>
+              </div>
             </div>
 
             <div class="mb-3">
@@ -739,6 +747,16 @@
 
         trackEvent("shop_search", {
           search_term: currentSearch || "empty"
+        });
+      });
+
+      document.getElementById("searchBtnFilter").addEventListener("click", function () {
+        const searchValue = document.getElementById("searchInput").value.trim();
+        currentSearch = searchValue;
+        renderProducts();
+
+        trackEvent("shop_search_button_click", {
+          search_term: searchValue || "empty"
         });
       });
 
