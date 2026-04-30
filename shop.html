@@ -80,7 +80,6 @@
   let currentSort = "default";
   let currentSearch = "";
   let wishlist = JSON.parse(localStorage.getItem("teetrendz_wishlist")) || [];
-  let activeModalProduct = null;
 
   function trackEvent(eventName, payload = {}) {
     window.dataLayer.push({
@@ -105,14 +104,23 @@
   }
 
   function showToast(message) {
-    document.getElementById("toastText").textContent = message;
+    const toastText = document.getElementById("toastText");
     const toastElement = document.getElementById("cartToast");
-    const toast = bootstrap.Toast.getOrCreateInstance(toastElement);
-    toast.show();
+
+    if (!toastText || !toastElement) return;
+
+    toastText.textContent = message;
+
+    if (window.bootstrap) {
+      const toast = bootstrap.Toast.getOrCreateInstance(toastElement);
+      toast.show();
+    }
   }
 
   function addToCart(productId) {
     const product = products.find(p => p.id === productId);
+    if (!product) return;
+
     const cart = getCart();
     const existing = cart.find(item => item.id === productId);
 
@@ -152,25 +160,30 @@
 
   function toggleWishlist(productId) {
     const product = products.find(p => p.id === productId);
-    const exists = wishlist.includes(productId);
+    if (!product) return;
 
-    if (exists) {
+    const alreadyWishlisted = wishlist.includes(productId);
+
+    if (alreadyWishlisted) {
       wishlist = wishlist.filter(id => id !== productId);
     } else {
       wishlist.push(productId);
     }
 
     localStorage.setItem("teetrendz_wishlist", JSON.stringify(wishlist));
-    renderProducts();
 
     trackEvent("wishlist_toggle", {
       product_id: product.id,
       product_name: product.name,
-      wishlist_status: exists ? "removed" : "added"
+      wishlist_status: alreadyWishlisted ? "removed" : "added"
     });
+
+    renderProducts();
   }
 
   function trackProductSelect(product, source) {
+    if (!product) return;
+
     trackEvent("select_item", {
       ecommerce: {
         item_list_name: source,
@@ -186,7 +199,7 @@
 
   function openQuickView(productId) {
     const product = products.find(p => p.id === productId);
-    activeModalProduct = product;
+    if (!product) return;
 
     document.getElementById("modalCategory").textContent = product.category;
     document.getElementById("modalName").textContent = product.name;
@@ -217,8 +230,10 @@
       }
     });
 
-    const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById("quickViewModal"));
-    modal.show();
+    if (window.bootstrap) {
+      const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById("quickViewModal"));
+      modal.show();
+    }
   }
 
   function getFilteredProducts() {
@@ -251,7 +266,7 @@
 
   function applySearch() {
     const searchInput = document.getElementById("searchInput");
-    currentSearch = searchInput.value.trim();
+    currentSearch = searchInput ? searchInput.value.trim() : "";
 
     const results = getFilteredProducts();
 
@@ -269,6 +284,9 @@
     const grid = document.getElementById("productGrid");
     const count = document.getElementById("productCount");
     const emptyState = document.getElementById("emptyState");
+
+    if (!grid || !count || !emptyState) return;
+
     const filtered = getFilteredProducts();
 
     grid.innerHTML = "";
@@ -300,10 +318,12 @@
             <div class="d-grid gap-2">
               <button class="btn btn-primary add-cart-btn" data-id="${product.id}">Add to Cart</button>
               <button class="btn btn-outline-dark quick-view-btn" data-id="${product.id}">Quick View</button>
-              <button class="btn btn-outline-danger wishlist-btn ${isWishlisted ? 'active' : ''}" data-id="${product.id}">
-                ${isWishlisted ? 'Wishlisted' : 'Add to Wishlist'}
+              <button class="btn btn-outline-danger wishlist-btn ${isWishlisted ? "active" : ""}" data-id="${product.id}">
+                ${isWishlisted ? "Wishlisted" : "Add to Wishlist"}
               </button>
-              <a href="product.html?id=${product.id}" class="btn btn-outline-secondary view-product-btn" data-id="${product.id}">View Product Page</a>
+              <a href="product.html?id=${product.id}" class="btn btn-outline-secondary view-product-btn" data-id="${product.id}">
+                View Product Page
+              </a>
             </div>
           </div>
         </div>
@@ -361,12 +381,12 @@
       btn.classList.toggle("active", btn.dataset.category === category);
     });
 
-    renderProducts();
-
     trackEvent("product_filter_click", {
       filter_name: "category",
       filter_value: category
     });
+
+    renderProducts();
   }
 
   function resetFilters() {
@@ -374,18 +394,21 @@
     currentSort = "default";
     currentSearch = "";
 
-    document.getElementById("sortSelect").value = "default";
-    document.getElementById("searchInput").value = "";
+    const sortSelect = document.getElementById("sortSelect");
+    const searchInput = document.getElementById("searchInput");
+
+    if (sortSelect) sortSelect.value = "default";
+    if (searchInput) searchInput.value = "";
 
     document.querySelectorAll(".chip-btn").forEach(btn => {
       btn.classList.toggle("active", btn.dataset.category === "All");
     });
 
-    renderProducts();
-
     trackEvent("product_filter_reset", {
       page_type: "shop"
     });
+
+    renderProducts();
   }
 
   function bindControls() {
@@ -395,26 +418,40 @@
       });
     });
 
-    document.getElementById("sortSelect").addEventListener("change", function () {
-      currentSort = this.value;
-      renderProducts();
+    const sortSelect = document.getElementById("sortSelect");
+    if (sortSelect) {
+      sortSelect.addEventListener("change", function () {
+        currentSort = this.value;
 
-      trackEvent("shop_sort_change", {
-        sort_value: currentSort
+        trackEvent("shop_sort_change", {
+          sort_value: currentSort
+        });
+
+        renderProducts();
       });
-    });
+    }
 
-    document.getElementById("searchSubmitBtn").addEventListener("click", applySearch);
+    const searchBtn = document.getElementById("searchSubmitBtn");
+    const searchInput = document.getElementById("searchInput");
 
-    document.getElementById("searchInput").addEventListener("keydown", function (e) {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        applySearch();
-      }
-    });
+    if (searchBtn) {
+      searchBtn.addEventListener("click", applySearch);
+    }
 
-    document.getElementById("resetBtn").addEventListener("click", resetFilters);
-    document.getElementById("emptyResetBtn").addEventListener("click", resetFilters);
+    if (searchInput) {
+      searchInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          applySearch();
+        }
+      });
+    }
+
+    const resetBtn = document.getElementById("resetBtn");
+    const emptyResetBtn = document.getElementById("emptyResetBtn");
+
+    if (resetBtn) resetBtn.addEventListener("click", resetFilters);
+    if (emptyResetBtn) emptyResetBtn.addEventListener("click", resetFilters);
   }
 
   document.addEventListener("DOMContentLoaded", function () {
