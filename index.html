@@ -184,7 +184,16 @@
           <li class="nav-item"><a class="nav-link" href="product.html">Product</a></li>
           <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
           <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-          <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+          <li class="nav-item ms-lg-3 mt-2 mt-lg-0 d-flex align-items-center">
+            <div class="input-group me-2" id="searchGroup" style="display: none;">
+              <input type="text" class="form-control" id="headerSearchInput" placeholder="Search products..." style="width: 200px;">
+              <button class="btn btn-outline-secondary" id="headerSearchBtn">Go</button>
+            </div>
+            <button class="btn btn-outline-dark me-2" id="searchToggleBtn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg>
+            </button>
             <a class="btn btn-dark" href="cart.html">
               Cart <span class="cart-badge ms-1" id="cartCount">0</span>
             </a>
@@ -546,6 +555,42 @@
       updateCartCount();
       renderFeaturedProducts();
       setupNewsletterForm();
+
+      // Search functionality
+      const searchToggleBtn = document.getElementById("searchToggleBtn");
+      const searchGroup = document.getElementById("searchGroup");
+      const headerSearchInput = document.getElementById("headerSearchInput");
+      const headerSearchBtn = document.getElementById("headerSearchBtn");
+
+      searchToggleBtn.addEventListener("click", function() {
+        if (searchGroup.style.display === "none") {
+          searchGroup.style.display = "flex";
+          headerSearchInput.focus();
+        } else {
+          searchGroup.style.display = "none";
+          headerSearchInput.value = "";
+        }
+      });
+
+      function performSearch() {
+        const query = headerSearchInput.value.trim();
+        if (query) {
+          // Track search event
+          trackEvent("search", {
+            search_term: query,
+            search_location: "header"
+          });
+          // Navigate to shop with search query
+          window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+        }
+      }
+
+      headerSearchBtn.addEventListener("click", performSearch);
+      headerSearchInput.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+          performSearch();
+        }
+      });
 
       trackEvent("homepage_view", {
         page_type: "home"

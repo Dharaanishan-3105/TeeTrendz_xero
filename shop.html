@@ -723,7 +723,18 @@
 
     document.addEventListener("DOMContentLoaded", function () {
       updateCartCount();
-      renderProducts();
+
+      // Check for search query in URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const searchQuery = urlParams.get('search');
+      if (searchQuery) {
+        document.getElementById("searchInput").value = searchQuery;
+        currentSearch = searchQuery;
+        // Apply search to filter and track
+        applySearch();
+      } else {
+        renderProducts();
+      }
 
       document.querySelectorAll(".chip-btn").forEach(button => {
         button.addEventListener("click", function () {
