@@ -28,58 +28,110 @@
   <style>
     :root {
       --brand-dark: #0f172a;
-      --brand-accent: #2563eb;
-      --brand-soft: #eff6ff;
+      --brand-accent: #059669;
+      --brand-soft: rgba(255, 255, 255, 0.85);
+      --brand-glassy: rgba(255, 255, 255, 0.1);
+      --brand-glass-border: rgba(255, 255, 255, 0.2);
       --text-muted: #64748b;
+      --premium-gold: #d4af37;
     }
 
     body {
-      background-color: #f8fafc;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
       color: #0f172a;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
 
     .navbar {
-      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--brand-accent), #047857);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .hero {
       background:
-        linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.65)),
+        linear-gradient(rgba(5, 150, 105, 0.85), rgba(5, 150, 105, 0.75)),
         url("https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
       color: white;
       min-height: 82vh;
       display: flex;
       align-items: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--brand-glassy);
+      backdrop-filter: blur(1px);
+      -webkit-backdrop-filter: blur(1px);
     }
 
     .hero-card {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.16);
-      backdrop-filter: blur(8px);
-      border-radius: 24px;
-      padding: 2rem;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border-radius: 28px;
+      padding: 2.5rem;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 28px 75px rgba(0, 0, 0, 0.15);
     }
 
-    .section-title {
-      font-weight: 800;
-      letter-spacing: -0.02em;
+    .hero-card h1,
+    .hero-card p,
+    .hero-card .badge-soft {
+      color: #0f172a;
     }
 
-    .feature-card,
-    .product-card,
-    .trust-card {
+    .btn-primary {
+      background: linear-gradient(135deg, var(--brand-accent), #047857);
       border: none;
-      border-radius: 18px;
-      transition: 0.25s ease;
-      height: 100%;
-      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+      border-radius: 14px;
+      font-weight: 700;
+      padding: 0.9rem 1.75rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 7px 25px rgba(5, 150, 105, 0.28);
     }
 
-    .feature-card:hover,
-    .product-card:hover,
-    .trust-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(5, 150, 105, 0.4);
+      background: linear-gradient(135deg, #047857, var(--brand-accent));
+    }
+
+    .btn-outline-light {
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      color: #0f172a;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 14px;
+      font-weight: 600;
+      padding: 0.85rem 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline-light:hover {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: rgba(15, 23, 42, 0.16);
+      color: #0f172a;
+      transform: translateY(-2px);
     }
 
     .product-card img {
@@ -92,7 +144,7 @@
     .price {
       font-size: 1.15rem;
       font-weight: 700;
-      color: #16a34a;
+      color: var(--brand-accent);
     }
 
     .old-price {
@@ -109,15 +161,19 @@
     }
 
     .cta-banner {
-      background: linear-gradient(135deg, #1d4ed8, #0f172a);
+      background: linear-gradient(135deg, var(--brand-accent), #047857);
       color: white;
       border-radius: 24px;
+      box-shadow: 0 20px 40px rgba(5, 150, 105, 0.3);
     }
 
     .newsletter-box {
-      background: white;
+      background: var(--brand-soft);
       border-radius: 20px;
-      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--brand-glass-border);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
     }
 
     footer {
@@ -135,16 +191,48 @@
     }
 
     .cart-badge {
-      background: #facc15;
+      background: var(--premium-gold);
       color: #111827;
       border-radius: 999px;
       padding: 0.28rem 0.7rem;
       font-weight: 700;
       font-size: 0.9rem;
+      box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
     }
 
     .mini-text {
       color: var(--text-muted);
+    }
+
+    .section-title {
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--brand-accent), #047857);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .feature-card,
+    .product-card,
+    .trust-card {
+      border: none;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      height: 100%;
+      background: var(--brand-soft);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid var(--brand-glass-border);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    }
+
+    .feature-card:hover,
+    .product-card:hover,
+    .trust-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 25px 50px rgba(5, 150, 105, 0.15);
+      border-color: rgba(5, 150, 105, 0.3);
     }
   </style>
 </head>
@@ -178,13 +266,16 @@
       </button>
 
       <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav ms-auto align-items-lg-center">
+        <ul class="navbar-nav me-auto align-items-lg-center">
           <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
           <li class="nav-item"><a class="nav-link" href="product.html">Product</a></li>
-          <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
           <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-          <li class="nav-item ms-lg-3 mt-2 mt-lg-0 d-flex align-items-center">
+          <li class="nav-item"><a class="nav-link" href="multi-step-form.html">Form</a></li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item">
             <div class="input-group me-2" id="searchGroup" style="display: none;">
               <input type="text" class="form-control" id="headerSearchInput" placeholder="Search products..." style="width: 200px;">
               <button class="btn btn-outline-secondary" id="headerSearchBtn">Go</button>
@@ -194,10 +285,14 @@
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
               </svg>
             </button>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="wishlist.html" id="wishlistNav">Wishlist <span class="cart-badge ms-1" id="wishlistCount">0</span></a></li>
+          <li class="nav-item">
             <a class="btn btn-dark" href="cart.html">
               Cart <span class="cart-badge ms-1" id="cartCount">0</span>
             </a>
           </li>
+          <li class="nav-item ms-3"><a class="nav-link" href="account.html" id="accountNav">Sign In</a></li>
         </ul>
       </div>
     </div>
@@ -372,6 +467,7 @@
     </div>
   </footer>
 
+  <script src="main.js"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
 
@@ -401,14 +497,6 @@
         image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80"
       }
     ];
-
-    function trackEvent(eventName, payload = {}) {
-      window.dataLayer.push({
-        event: eventName,
-        ...payload
-      });
-      console.log("dataLayer event:", eventName, payload);
-    }
 
     function getCart() {
       return JSON.parse(localStorage.getItem("teetrendz_cart")) || [];

@@ -25,29 +25,67 @@
   <style>
     :root {
       --brand-dark: #0f172a;
-      --brand-accent: #2563eb;
-      --brand-soft: #eff6ff;
+      --brand-accent: #059669;
+      --brand-soft: rgba(255, 255, 255, 0.85);
+      --brand-glassy: rgba(255, 255, 255, 0.1);
+      --brand-glass-border: rgba(255, 255, 255, 0.2);
       --text-muted: #64748b;
+      --premium-gold: #d4af37;
     }
 
     body {
-      background: #f8fafc;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
       color: #0f172a;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
 
     .navbar {
-      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--brand-accent), #047857);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .page-banner {
-      background: linear-gradient(135deg, #0f172a, #1d4ed8);
+      background: linear-gradient(135deg, var(--brand-accent), #047857);
       color: white;
       padding: 60px 0 40px;
+      position: relative;
+    }
+
+    .page-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--brand-glassy);
+      backdrop-filter: blur(1px);
+      -webkit-backdrop-filter: blur(1px);
+    }
+
+    .page-banner > * {
+      position: relative;
+      z-index: 1;
     }
 
     .section-title {
       font-weight: 800;
       letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--brand-accent), #047857);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .mini-text {
@@ -55,12 +93,47 @@
     }
 
     .cart-badge {
-      background: #facc15;
+      background: var(--premium-gold);
       color: #111827;
       border-radius: 999px;
       padding: 0.28rem 0.7rem;
       font-weight: 700;
       font-size: 0.9rem;
+      box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--brand-accent), #047857);
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(5, 150, 105, 0.4);
+      background: linear-gradient(135deg, #047857, var(--brand-accent));
+    }
+
+    .product-card {
+      border: none;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      height: 100%;
+      background: var(--brand-soft);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid var(--brand-glass-border);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 25px 50px rgba(5, 150, 105, 0.15);
+      border-color: rgba(5, 150, 105, 0.3);
     }
 
     .filter-card,
@@ -95,7 +168,7 @@
     .price {
       font-size: 1.1rem;
       font-weight: 800;
-      color: #16a34a;
+      color: var(--brand-accent);
     }
 
     .old-price {
@@ -172,13 +245,29 @@
       </button>
 
       <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav ms-auto align-items-lg-center">
+        <ul class="navbar-nav me-auto align-items-lg-center">
           <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
           <li class="nav-item"><a class="nav-link active" href="shop.html">Shop</a></li>
           <li class="nav-item"><a class="nav-link" href="product.html">Product</a></li>
-          <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
           <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-          <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+          <li class="nav-item"><a class="nav-link" href="multi-step-form.html">Form</a></li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item">
+            <div class="input-group me-2" id="searchGroup" style="display: none;">
+              <input type="text" class="form-control" id="headerSearchInput" placeholder="Search products..." style="width: 200px;">
+              <button class="btn btn-outline-secondary" id="headerSearchBtn">Go</button>
+            </div>
+            <button class="btn btn-outline-dark me-2" id="searchToggleBtn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg>
+            </button>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="wishlist.html" id="wishlistNav">Wishlist <span class="cart-badge ms-1" id="wishlistCount">0</span></a></li>
+          <li class="nav-item me-3"><a class="nav-link" href="account.html" id="accountNav">Sign In</a></li>
+          <li class="nav-item">
             <a class="btn btn-dark" href="cart.html">
               Cart <span class="cart-badge ms-1" id="cartCount">0</span>
             </a>
@@ -346,6 +435,7 @@
     </div>
   </footer>
 
+  <script src="main.js"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
 
@@ -427,14 +517,12 @@
     let currentCategory = "All";
     let currentSort = "default";
     let currentSearch = "";
-    let wishlist = JSON.parse(localStorage.getItem("teetrendz_wishlist")) || [];
 
-    function trackEvent(eventName, payload = {}) {
-      window.dataLayer.push({
-        event: eventName,
-        ...payload
-      });
-      console.log("dataLayer:", eventName, payload);
+    function toggleWishlist(productId) {
+      const product = products.find(item => item.id === productId);
+      if (!product) return;
+      addToWishlist(product);
+      renderProducts();
     }
 
     function getCart() {
@@ -508,8 +596,9 @@
         emptyState.classList.add("d-none");
       }
 
+      const wishlistIds = getWishlist().map(item => item.id);
       filtered.forEach(product => {
-        const isWishlisted = wishlist.includes(product.id);
+        const isWishlisted = wishlistIds.includes(product.id);
 
         const card = document.createElement("div");
         card.className = "col-md-6 col-xl-4";
