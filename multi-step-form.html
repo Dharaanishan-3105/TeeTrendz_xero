@@ -226,7 +226,7 @@
               </div>
             </div>
 
-            <form id="multiStepForm">
+            <form id="multiStepForm" novalidate>
               <!-- Step 1: Personal Information -->
               <div class="step active" id="step1">
                 <h4 class="mb-4">Personal Information</h4>
@@ -245,14 +245,15 @@
                 <div class="mb-3">
                   <label for="email" class="form-label">Email Address *</label>
                   <input type="email" class="form-control" id="email" required>
-                  <div class="invalid-feedback">Please provide a valid email address.</div>
+                  <div class="invalid-feedback" id="emailRequiredFeedback">Email address is required.</div>
+                  <div class="invalid-feedback" id="emailInvalidFeedback" style="display:none">Please provide a valid email address.</div>
                 </div>
                 <div class="mb-3">
                   <label for="phone" class="form-label">Phone Number</label>
                   <input type="tel" class="form-control" id="phone">
                 </div>
                 <div class="d-flex justify-content-end">
-                  <button type="button" class="btn btn-primary btn-step" onclick="nextStep(1)">Next</button>
+                  <button type="button" class="btn btn-primary btn-step" data-step-action="next">Next</button>
                 </div>
               </div>
 
@@ -291,8 +292,8 @@
                   <div class="invalid-feedback">Please select your country.</div>
                 </div>
                 <div class="d-flex justify-content-between">
-                  <button type="button" class="btn btn-secondary btn-step" onclick="prevStep(2)">Previous</button>
-                  <button type="button" class="btn btn-primary btn-step" onclick="nextStep(2)">Next</button>
+                  <button type="button" class="btn btn-secondary btn-step" data-step-action="prev">Previous</button>
+                  <button type="button" class="btn btn-primary btn-step" data-step-action="next">Next</button>
                 </div>
               </div>
 
@@ -313,7 +314,7 @@
                       PayPal
                     </label>
                   </div>
-                  <div class="invalid-feedback d-block">Please select a payment method.</div>
+                  <div class="invalid-feedback" id="paymentFeedback" style="display:none">Please select a payment method.</div>
                 </div>
                 <div id="creditCardFields">
                   <div class="mb-3">
@@ -335,8 +336,8 @@
                   </div>
                 </div>
                 <div class="d-flex justify-content-between">
-                  <button type="button" class="btn btn-secondary btn-step" onclick="prevStep(3)">Previous</button>
-                  <button type="button" class="btn btn-primary btn-step" onclick="nextStep(3)">Next</button>
+                  <button type="button" class="btn btn-secondary btn-step" data-step-action="prev">Previous</button>
+                  <button type="button" class="btn btn-primary btn-step" data-step-action="next">Next</button>
                 </div>
               </div>
 
@@ -369,7 +370,7 @@
                   <div class="invalid-feedback">You must agree to the terms and conditions.</div>
                 </div>
                 <div class="d-flex justify-content-between mt-4">
-                  <button type="button" class="btn btn-secondary btn-step" onclick="prevStep(4)">Previous</button>
+                  <button type="button" class="btn btn-secondary btn-step" data-step-action="prev">Previous</button>
                   <button type="submit" class="btn btn-success btn-step">Submit Order</button>
                 </div>
               </div>
@@ -430,61 +431,206 @@
   <script src="main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+console.log("FORM VALIDATION SCRIPT UPDATED - VERSION 2");
+
     let currentStep = 1;
+    const form = document.getElementById('multiStepForm');
     const totalSteps = 4;
 
+    // --- Step UI helpers ---
     function showStep(step) {
       document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-      document.getElementById('step' + step).classList.add('active');
+      const el = document.getElementById('step' + step);
+      if (el) el.classList.add('active');
       updateProgress();
     }
 
     function updateProgress() {
       const progress = (currentStep / totalSteps) * 100;
-      document.getElementById('progressBar').style.width = progress + '%';
+      const pb = document.getElementById('progressBar');
+      if (pb) pb.style.width = progress + '%';
     }
 
-    function nextStep(current) {
-      if (validateStep(current)) {
-        currentStep = current + 1;
-        showStep(currentStep);
-        if (currentStep === 4) {
-          populateReview();
-        }
+    // --- Validation: only visible step fields ---
+    function getCurrentStepElement() {
+      return document.querySelector('.step.active');
+    }
+
+    function getStepNumberFromElement(stepEl) {
+      if (!stepEl || !stepEl.id) return NaN;
+      return parseInt(stepEl.id.replace('step', ''), 10);
+    }
+
+    function removeStepErrors(stepEl) {
+      if (!stepEl) return;
+      stepEl.querySelectorAll('.validation-error-inline').forEach(n => n.remove());
+    }
+
+    function insertErrorAfterField(field, message) {
+      if (!field) return;
+      // Avoid duplicating messages for the same field.
+      const existing = field.parentElement ? field.parentElement.querySelector(`.validation-error-inline[data-for="${field.id}"]`) : null;
+      if (existing) return;
+
+      const msgNode = document.createElement('div');
+      msgNode.className = 'validation-error-inline text-danger mt-1';
+      msgNode.setAttribute('data-for', field.id);
+      msgNode.textContent = message;
+
+      // Insert directly after the field element in DOM.
+      if (field.nextSibling) {
+        field.parentElement.insertBefore(msgNode, field.nextSibling);
+      } else {
+        field.parentElement.appendChild(msgNode);
       }
     }
 
-    function prevStep(current) {
-      currentStep = current - 1;
-      showStep(currentStep);
+    function isFieldRequired(field) {
+      return !!field && (field.hasAttribute('required') || (field.getAttribute('aria-required') === 'true'));
     }
 
-    function validateStep(step) {
-      const stepElement = document.getElementById('step' + step);
-      const inputs = stepElement.querySelectorAll('input[required], select[required]');
-      let isValid = true;
+    function validateStep(stepNumber) {
+      const stepEl = document.getElementById('step' + stepNumber);
+      if (!stepEl) return true;
 
-      inputs.forEach(input => {
-        if (!input.checkValidity()) {
-          input.classList.add('is-invalid');
-          isValid = false;
-        } else {
-          input.classList.remove('is-invalid');
-        }
+      // Required fields are those with required attribute inside the current step.
+      const requiredFields = Array.from(stepEl.querySelectorAll('input[required], select[required], textarea[required]'));
+
+      // Only validate required fields that are currently visible.
+      const visibleRequiredFields = requiredFields.filter(f => {
+        // Radios/checkboxes can be hidden by styles, so check visibility of the element itself.
+        const rect = f.getBoundingClientRect();
+        const style = window.getComputedStyle(f);
+        return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
       });
 
-      // Special validation for payment method
-      if (step === 3) {
-        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
-        if (!paymentMethod) {
-          document.querySelector('.invalid-feedback').style.display = 'block';
+      // Clear previous inline errors
+      removeStepErrors(stepEl);
+
+
+      let isValid = true;
+      let emailField = stepEl.querySelector('#email');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+      // Validate each visible required field
+      for (const field of visibleRequiredFields) {
+        const tag = (field.tagName || '').toLowerCase();
+        const type = (field.type || '').toLowerCase();
+
+        if (field.id === 'email') {
+          const emailValue = field.value.trim();
+          if (!emailValue) {
+            insertErrorAfterField(field, 'Email is required.');
+            field.classList.add('is-invalid');
+            isValid = false;
+          } else if (!emailRegex.test(emailValue)) {
+            insertErrorAfterField(field, 'Please provide a valid email address.');
+            field.classList.add('is-invalid');
+            isValid = false;
+          } else {
+            field.classList.remove('is-invalid');
+          }
+          continue;
+        }
+
+        let value = '';
+        if (type === 'checkbox') {
+          value = field.checked ? 'checked' : '';
+        } else if (type === 'radio') {
+          // For radios: validate only once per group.
+          // We'll validate the group by name.
+          const groupName = field.name;
+          if (!groupName) continue;
+          const group = stepEl.querySelectorAll(`input[type="radio"][name="${CSS.escape(groupName)}"]`);
+          const checked = Array.from(group).some(r => r.checked);
+          if (!checked) {
+            const labelEl = stepEl.querySelector(`label[for="${field.id}"]`) || stepEl.querySelector(`input[name="${CSS.escape(groupName)}"]`);
+            const labelText = (() => {
+              const lbl = stepEl.querySelector(`label[for="${CSS.escape(field.id)}"]`);
+              if (lbl) return lbl.textContent.trim();
+              const grp = stepEl.querySelector(`input[name="${CSS.escape(groupName)}"]`);
+              return grp ? grp.getAttribute('data-label') || 'This field' : 'This field';
+            })();
+            insertErrorAfterField(field, `${labelText} is required.`.replace(/\s+/g,' ').trim());
+            field.classList.add('is-invalid');
+            isValid = false;
+          } else {
+            Array.from(group).forEach(r => r.classList.remove('is-invalid'));
+          }
+          // Mark as validated for group by skipping remaining radios in group.
+          // Since loop continues, we'll just continue.
+          continue;
+        } else {
+          value = (field.value || '').toString().trim();
+        }
+
+        if (!value) {
+          const labelFor = field.id ? stepEl.querySelector(`label[for="${CSS.escape(field.id)}"]`) : null;
+          const labelText = labelFor ? labelFor.textContent.replace('*','').trim() : (field.name || 'This field');
+          insertErrorAfterField(field, `${labelText} is required.`);
+          field.classList.add('is-invalid');
+          isValid = false;
+        } else if (tag === 'select' && field.value === '') {
+          const labelFor = field.id ? stepEl.querySelector(`label[for="${CSS.escape(field.id)}"]`) : null;
+          const labelText = labelFor ? labelFor.textContent.replace('*','').trim() : (field.name || 'This field');
+          insertErrorAfterField(field, `${labelText} is required.`);
+          field.classList.add('is-invalid');
           isValid = false;
         } else {
-          document.querySelector('.invalid-feedback').style.display = 'none';
+          field.classList.remove('is-invalid');
         }
       }
 
+      // Additional visible validations that rely on HTML constraints
+      // ZIP pattern is already handled by requiredFields + checkValidity, but we need inline messages.
+      if (stepNumber === 2) {
+        const zip = stepEl.querySelector('#zipCode');
+        if (zip && zip.getBoundingClientRect().width > 0) {
+          const zipVal = zip.value.trim();
+          if (!zipVal) {
+            const labelFor = stepEl.querySelector('label[for="zipCode"]');
+            const labelText = labelFor ? labelFor.textContent.replace('*','').trim() : 'ZIP Code';
+            insertErrorAfterField(zip, `${labelText} is required.`);
+            zip.classList.add('is-invalid');
+            isValid = false;
+          } else if (!zip.checkValidity()) {
+            zip.classList.add('is-invalid');
+            // keep requirement message as asked; use provided invalid-feedback text
+            insertErrorAfterField(zip, 'Please provide a valid 5-digit ZIP code.');
+            isValid = false;
+          }
+        }
+      }
+
+      // Payment method radio group is required by attribute; ensure visible (step 3 radios always visible)
       return isValid;
+    }
+
+    function nextStep() {
+      const activeStepEl = getCurrentStepElement();
+      const stepNumber = getStepNumberFromElement(activeStepEl);
+      console.log("NEXT CLICKED", stepNumber);
+      console.log("VALIDATING STEP", stepNumber);
+      if (!activeStepEl || !stepNumber) return;
+      if (!validateStep(stepNumber)) {
+        console.log('VALIDATION FAILED');
+        return;
+      }
+      const newStep = stepNumber + 1;
+      currentStep = newStep;
+      showStep(currentStep);
+      if (currentStep === 4) populateReview();
+    }
+
+    function prevStep() {
+      const activeStepEl = getCurrentStepElement();
+      const stepNumber = getStepNumberFromElement(activeStepEl);
+      console.log("PREVIOUS CLICKED", stepNumber);
+      if (!activeStepEl || !stepNumber) return;
+      if (stepNumber > 1) {
+        currentStep = stepNumber - 1;
+        showStep(currentStep);
+      }
     }
 
     function populateReview() {
@@ -498,18 +644,43 @@
       document.getElementById('reviewPayment').textContent = paymentMethod ? (paymentMethod.value === 'credit' ? 'Credit Card' : 'PayPal') : '';
     }
 
-    document.getElementById('multiStepForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      if (validateStep(4)) {
-        alert('Form submitted successfully! This is where you would send the data to your server.');
-        // Reset form or redirect
-        currentStep = 1;
-        showStep(currentStep);
-        this.reset();
-      }
-    });
+    // Event delegation from the form to avoid selector/binding issues
+    if (form) {
+      form.addEventListener('click', function(event) {
+        const btn = event.target.closest('button[data-step-action]');
+        if (!btn) return;
+        const action = btn.getAttribute('data-step-action');
+        if (action === 'next') {
+          event.preventDefault();
+          event.stopPropagation();
+          event.stopImmediatePropagation();
+          nextStep();
+        } else if (action === 'prev') {
+          event.preventDefault();
+          event.stopPropagation();
+          event.stopImmediatePropagation();
+          prevStep();
+        }
+      }, true);
+    }
 
-    // Toggle credit card fields based on payment method
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        console.log('SUBMIT CLICKED', currentStep);
+        console.log('VALIDATING STEP', 4);
+        if (validateStep(4)) {
+          alert('Form submitted successfully! This is where you would send the data to your server.');
+          currentStep = 1;
+          showStep(currentStep);
+          this.reset();
+        }
+      }, true);
+    }
+
+    // Toggle credit card required + visibility based on payment method (kept)
     document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
       radio.addEventListener('change', function() {
         const creditFields = document.getElementById('creditCardFields');
@@ -523,8 +694,18 @@
       });
     });
 
-    // Initialize
+    // Initialize step UI
     showStep(currentStep);
+
+    // --- End corrected multi-step form logic ---
+
+    // (Old logic removed/overridden below)
+
+  
+    // IMPORTANT: no duplicate handler logic below.
+
   </script>
+
 </body>
 </html>
+

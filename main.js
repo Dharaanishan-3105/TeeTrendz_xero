@@ -389,3 +389,6 @@ function initCommonUi() {
 document.addEventListener('DOMContentLoaded', function() {
   initCommonUi();
 });
+
+// Multi-step form safety: ensure no other scripts hijack validation
+window.__teetrendz_multistep_v2__ = true;
