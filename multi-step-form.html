@@ -253,7 +253,7 @@
                   <input type="tel" class="form-control" id="phone">
                 </div>
                 <div class="d-flex justify-content-end">
-                  <button type="button" class="btn btn-primary btn-step" data-step-action="next">Next</button>
+                  <button type="button" class="btn btn-primary btn-step" onclick="nextStep()">Next</button>
                 </div>
               </div>
 
@@ -292,8 +292,8 @@
                   <div class="invalid-feedback">Please select your country.</div>
                 </div>
                 <div class="d-flex justify-content-between">
-                  <button type="button" class="btn btn-secondary btn-step" data-step-action="prev">Previous</button>
-                  <button type="button" class="btn btn-primary btn-step" data-step-action="next">Next</button>
+                  <button type="button" class="btn btn-secondary btn-step" onclick="prevStep()">Previous</button>
+                  <button type="button" class="btn btn-primary btn-step" onclick="nextStep()">Next</button>
                 </div>
               </div>
 
@@ -336,8 +336,8 @@
                   </div>
                 </div>
                 <div class="d-flex justify-content-between">
-                  <button type="button" class="btn btn-secondary btn-step" data-step-action="prev">Previous</button>
-                  <button type="button" class="btn btn-primary btn-step" data-step-action="next">Next</button>
+                  <button type="button" class="btn btn-secondary btn-step" onclick="prevStep()">Previous</button>
+                  <button type="button" class="btn btn-primary btn-step" onclick="nextStep()">Next</button>
                 </div>
               </div>
 
@@ -370,7 +370,7 @@
                   <div class="invalid-feedback">You must agree to the terms and conditions.</div>
                 </div>
                 <div class="d-flex justify-content-between mt-4">
-                  <button type="button" class="btn btn-secondary btn-step" data-step-action="prev">Previous</button>
+                  <button type="button" class="btn btn-secondary btn-step" onclick="prevStep()">Previous</button>
                   <button type="submit" class="btn btn-success btn-step">Submit Order</button>
                 </div>
               </div>
@@ -464,20 +464,29 @@ console.log("FORM VALIDATION SCRIPT UPDATED - VERSION 2");
     function removeStepErrors(stepEl) {
       if (!stepEl) return;
       stepEl.querySelectorAll('.validation-error-inline').forEach(n => n.remove());
+      stepEl.querySelectorAll('.is-invalid').forEach(field => field.classList.remove('is-invalid'));
     }
 
     function insertErrorAfterField(field, message) {
       if (!field) return;
-      // Avoid duplicating messages for the same field.
-      const existing = field.parentElement ? field.parentElement.querySelector(`.validation-error-inline[data-for="${field.id}"]`) : null;
+      const fieldId = field.id || field.name || '';
+      const existing = field.parentElement ? field.parentElement.querySelector(`.validation-error-inline[data-for="${fieldId}"]`) : null;
       if (existing) return;
 
       const msgNode = document.createElement('div');
-      msgNode.className = 'validation-error-inline text-danger mt-1';
-      msgNode.setAttribute('data-for', field.id);
+      msgNode.className = 'validation-error-inline text-danger mt-2 d-block';
+      msgNode.setAttribute('data-for', fieldId);
       msgNode.textContent = message;
 
-      // Insert directly after the field element in DOM.
+      const wrapper = field.closest('.mb-3, .form-check') || field.parentElement;
+      if (wrapper) {
+        const nextInvalid = wrapper.querySelector('.invalid-feedback');
+        if (nextInvalid && nextInvalid.parentElement === wrapper) {
+          nextInvalid.insertAdjacentElement('afterend', msgNode);
+          return;
+        }
+      }
+
       if (field.nextSibling) {
         field.parentElement.insertBefore(msgNode, field.nextSibling);
       } else {
@@ -644,40 +653,16 @@ console.log("FORM VALIDATION SCRIPT UPDATED - VERSION 2");
       document.getElementById('reviewPayment').textContent = paymentMethod ? (paymentMethod.value === 'credit' ? 'Credit Card' : 'PayPal') : '';
     }
 
-    // Event delegation from the form to avoid selector/binding issues
-    if (form) {
-      form.addEventListener('click', function(event) {
-        const btn = event.target.closest('button[data-step-action]');
-        if (!btn) return;
-        const action = btn.getAttribute('data-step-action');
-        if (action === 'next') {
-          event.preventDefault();
-          event.stopPropagation();
-          event.stopImmediatePropagation();
-          nextStep();
-        } else if (action === 'prev') {
-          event.preventDefault();
-          event.stopPropagation();
-          event.stopImmediatePropagation();
-          prevStep();
-        }
-      }, true);
-    }
-
     if (form) {
       form.addEventListener('submit', function(e) {
         e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        console.log('SUBMIT CLICKED', currentStep);
-        console.log('VALIDATING STEP', 4);
         if (validateStep(4)) {
           alert('Form submitted successfully! This is where you would send the data to your server.');
           currentStep = 1;
           showStep(currentStep);
           this.reset();
         }
-      }, true);
+      });
     }
 
     // Toggle credit card required + visibility based on payment method (kept)
